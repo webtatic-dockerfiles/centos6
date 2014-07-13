@@ -1,14 +1,12 @@
-FROM webtatic/centos6:latest
+FROM webtatic/centos6:server
 MAINTAINER "Andy Thompson" <andy@webtatic.com>
 
-# Set up and enable sshd server
-RUN yum -y install openssh-server; yum clean all; \
-chkconfig sshd on; \
-echo "UseDNS no" >> /etc/ssh/sshd_config; \
+# Configure sshd to not use DNS
+RUN echo "UseDNS no" >> /etc/ssh/sshd_config; \
 echo "GSSAPIAuthentication no" >> /etc/ssh/sshd_config
 
 # Set up tools used by standard in vagrant
-RUN yum -y install wget nfs-utils which sudo; yum clean all
+RUN yum -y install wget nfs-utils; yum clean all
 
 # Set up the vagrant user
 RUN echo "NETWORKING=yes" > /etc/sysconfig/network; \
